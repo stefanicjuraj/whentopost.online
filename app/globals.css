@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+body {
+  background: linear-gradient(to right, #3b82f6, #a855f7, #ec4899);
+  /* disable user select */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
