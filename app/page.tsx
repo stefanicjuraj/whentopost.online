@@ -279,7 +279,7 @@ export default function Home() {
       return;
     }
 
-    let newBestTimes = [];
+    const newBestTimes = [];
     const uniqueAudienceTimezones = Array.from(new Set(audienceTimezones));
 
     for (let hour = 7; hour <= 21; hour++) {
