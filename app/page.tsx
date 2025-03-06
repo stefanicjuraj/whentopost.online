@@ -1072,14 +1072,15 @@ export default function Home() {
             <div className="space-y-6">
               {bestTimes.map((time, index) => (
                 <div key={index}>
-                  <p className="text-black">
-                    Time to post in your timezone ({userTimezone}) &rarr;{" "}
+                  <p className="text-black mb-2">
+                    Your timezone ({userTimezone}) &rarr;{" "}
                     <span className="font-bold">{time.userTime}</span>
                   </p>
+                  <p className="">Your audience timezones:</p>
                   <ul className="mt-2 ml-4 text-black list-disc">
                     {time.audienceTimes.map((at, i) => (
                       <li key={i}>
-                        <span className="font-bold">{at}</span>
+                        <span>{at}</span>
                       </li>
                     ))}
                   </ul>
