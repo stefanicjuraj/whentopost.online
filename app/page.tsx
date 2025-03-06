@@ -1030,12 +1030,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="max-w-screen-md p-3 mx-auto">
+        <div className="max-w-screen-sm p-3 mx-auto">
           <h2 className="mb-2 text-lg text-black">World Map View</h2>
           <p className="mb-2 text-sm text-black">
             Your location is shown in blue, and your audience locations are
             shown in pink. Click on gray markers to add them to your audience.
           </p>
+        </div>
+
+        <div className="max-w-screen-md p-3 mx-auto">
           <WorldMap
             userTimezone={userTimezone}
             audienceTimezones={audienceTimezones}
