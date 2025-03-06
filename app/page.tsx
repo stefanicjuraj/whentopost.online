@@ -1031,10 +1031,19 @@ export default function Home() {
         </div>
 
         <div className="max-w-screen-sm p-3 mx-auto">
-          <h2 className="mb-2 text-lg text-black">World Map View</h2>
-          <p className="mb-2 text-sm text-black">
-            Your location is shown in blue, and your audience locations are
-            shown in pink. Click on gray markers to add them to your audience.
+          <h2 className="mb-2 text-xl">Preview</h2>
+          <p className="mb-2 text-sm">
+            Your location is shown in{" "}
+            <span className="text-blue-500">blue</span>.
+          </p>
+          <p className="mb-2 text-sm">
+            Locations not in your audience are shown in{" "}
+            <span className="text-gray-500">gray</span>. Click on them to add
+            them to your audience.
+          </p>
+          <p className="text-sm">
+            Your audience locations will be shown in{" "}
+            <span className="text-pink-500">pink</span>.
           </p>
         </div>
 
@@ -1064,7 +1073,7 @@ export default function Home() {
               {bestTimes.map((time, index) => (
                 <div key={index}>
                   <p className="text-black">
-                    Time in your timezone ({userTimezone}) &rarr;{" "}
+                    Time to post in your timezone ({userTimezone}) &rarr;{" "}
                     <span className="font-bold">{time.userTime}</span>
                   </p>
                   <ul className="mt-2 ml-4 text-black list-disc">
