@@ -3,8 +3,8 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "",
-  description: "",
+  title: "When to Post",
+  description: "Find the best time to post on social media.",
 };
 
 export default function RootLayout({
