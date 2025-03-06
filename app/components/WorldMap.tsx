@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useState, useRef } from "react";
+import React, { memo, useState, useRef, useEffect } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -92,11 +92,13 @@ const timezoneCoordinates: Record<string, [number, number]> = {
 interface WorldMapProps {
   userTimezone: string;
   audienceTimezones: string[];
+  onTimezoneSelect?: (timezone: string) => void;
 }
 
-const WorldMap: React.FC<WorldMapProps> = ({
+const WorldMapContent: React.FC<WorldMapProps> = ({
   userTimezone,
   audienceTimezones,
+  onTimezoneSelect,
 }) => {
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState<{
@@ -125,6 +127,16 @@ const WorldMap: React.FC<WorldMapProps> = ({
     setTooltipPosition(null);
   };
 
+  const handleMarkerClick = (timezone: string) => {
+    if (
+      onTimezoneSelect &&
+      !audienceTimezones.includes(timezone) &&
+      timezone !== userTimezone
+    ) {
+      onTimezoneSelect(timezone);
+    }
+  };
+
   const getCurrentTimeForTimezone = (timezone: string) => {
     const now = new Date();
     return new Intl.DateTimeFormat("en-US", {
@@ -137,7 +149,7 @@ const WorldMap: React.FC<WorldMapProps> = ({
 
   return (
     <div
-      className="w-full h-[400px] mt-4 mb-8 border border-gray-200 rounded-lg overflow-hidden relative"
+      className="w-full sm:h-[500px] h-[300px] mt-4 mb-8 border border-gray-200 rounded-lg overflow-hidden relative"
       ref={mapRef}
     >
       <ComposableMap
@@ -164,32 +176,34 @@ const WorldMap: React.FC<WorldMapProps> = ({
           }
         </Geographies>
 
-        {userTimezone && timezoneCoordinates[userTimezone] && (
-          <Marker
-            coordinates={timezoneCoordinates[userTimezone]}
-            onMouseEnter={(e: React.MouseEvent) =>
-              handleMarkerMouseEnter(
-                `${userTimezone} - ${getCurrentTimeForTimezone(
-                  userTimezone
-                )} (You)`,
-                e
-              )
-            }
-            onMouseLeave={handleMarkerMouseLeave}
-          >
-            <g>
-              <circle r={8} fill="#4F46E5" stroke="#fff" strokeWidth={2} />
-              <circle r={16} fill="#4F46E5" fillOpacity={0.2} />
-            </g>
-          </Marker>
-        )}
+        {Object.entries(timezoneCoordinates).map(([tz, coordinates]) => {
+          const isUserTimezone = tz === userTimezone;
+          const isAudienceTimezone = audienceTimezones.includes(tz);
 
-        {audienceTimezones.map(
-          (tz) =>
-            timezoneCoordinates[tz] && (
+          if (isUserTimezone) {
+            return (
               <Marker
                 key={tz}
-                coordinates={timezoneCoordinates[tz]}
+                coordinates={coordinates}
+                onMouseEnter={(e: React.MouseEvent) =>
+                  handleMarkerMouseEnter(
+                    `${tz} - ${getCurrentTimeForTimezone(tz)} (You)`,
+                    e
+                  )
+                }
+                onMouseLeave={handleMarkerMouseLeave}
+              >
+                <g>
+                  <circle r={8} fill="#4F46E5" stroke="#fff" strokeWidth={2} />
+                  <circle r={16} fill="#4F46E5" fillOpacity={0.2} />
+                </g>
+              </Marker>
+            );
+          } else if (isAudienceTimezone) {
+            return (
+              <Marker
+                key={tz}
+                coordinates={coordinates}
                 onMouseEnter={(e: React.MouseEvent) =>
                   handleMarkerMouseEnter(
                     `${tz} - ${getCurrentTimeForTimezone(tz)}`,
@@ -197,11 +211,36 @@ const WorldMap: React.FC<WorldMapProps> = ({
                   )
                 }
                 onMouseLeave={handleMarkerMouseLeave}
+                onClick={() => handleMarkerClick(tz)}
               >
                 <circle r={8} fill="#EC4899" stroke="#fff" strokeWidth={2} />
               </Marker>
-            )
-        )}
+            );
+          } else {
+            return (
+              <Marker
+                key={tz}
+                coordinates={coordinates}
+                onMouseEnter={(e: React.MouseEvent) =>
+                  handleMarkerMouseEnter(
+                    `${tz} - ${getCurrentTimeForTimezone(tz)}`,
+                    e
+                  )
+                }
+                onMouseLeave={handleMarkerMouseLeave}
+                onClick={() => handleMarkerClick(tz)}
+              >
+                <circle
+                  r={6}
+                  fill="#9CA3AF"
+                  stroke="#fff"
+                  strokeWidth={2}
+                  className="cursor-pointer hover:fill-gray-500"
+                />
+              </Marker>
+            );
+          }
+        })}
       </ComposableMap>
 
       {tooltipContent && tooltipPosition && (
@@ -221,13 +260,35 @@ const WorldMap: React.FC<WorldMapProps> = ({
           <div className="w-3 h-3 mr-2 bg-indigo-600 rounded-full"></div>
           <span>Your timezone</span>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center mb-1">
           <div className="w-3 h-3 mr-2 bg-pink-500 rounded-full"></div>
           <span>Audience timezones</span>
+        </div>
+        <div className="flex items-center">
+          <div className="w-3 h-3 mr-2 bg-gray-400 rounded-full"></div>
+          <span>Available timezones (click to add)</span>
         </div>
       </div>
     </div>
   );
+};
+
+const WorldMap: React.FC<WorldMapProps> = (props) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="w-full h-[400px] mt-4 mb-8 border border-gray-200 rounded-lg flex items-center justify-center">
+        <div className="text-gray-500">Loading map...</div>
+      </div>
+    );
+  }
+
+  return <WorldMapContent {...props} />;
 };
 
 export default memo(WorldMap);
