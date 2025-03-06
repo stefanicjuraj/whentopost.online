@@ -5,6 +5,19 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "When to Post",
   description: "Find the best time to post on social media.",
+  keywords: [
+    "when to post",
+    "when to post online",
+    "when to post on social media",
+    "when to post on linkedin",
+    "when to post on reddit",
+    "when to post on instagram",
+    "when to post on bluesky",
+    "when to post on twitter",
+    "when to post on facebook",
+    "when to post on hacker news",
+    "best time to post",
+  ],
 };
 
 export default function RootLayout({
