@@ -18,6 +18,21 @@ export const metadata: Metadata = {
     "when to post on hacker news",
     "best time to post",
   ],
+  openGraph: {
+    title: "When to Post",
+    description:
+      "Find the best time to post on social media.",
+    url: "https://whentopost.online",
+    siteName: "When to Post",
+    images: [
+      {
+        url: "https://whentopost.online/assets/images/whentopostonline.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
 };
 
 export default function RootLayout({
