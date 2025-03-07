@@ -361,11 +361,11 @@ export default function Home() {
           <h1 className="mb-8 text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
             When to post online
           </h1>
-          <h2 className="mb-2 text-lg text-black">
-            The best time to post on social media based on your timezone and the
-            timezones of your audience.
+          <h2 className="mb-2 text-lg text-gray-700">
+            Find the best time to post on social media based on your timezone
+            and the timezones of your audience.
           </h2>
-          <p className="text-left text-black">
+          <p className="text-left text-lg text-gray-700">
             The calculations consider times between{" "}
             <span className="underline">7 AM</span> and{" "}
             <span className="underline">9 PM</span> due to social media
@@ -1028,23 +1028,6 @@ export default function Home() {
               )}
             </div>
           </div>
-        </div>
-
-        <div className="max-w-screen-sm p-3 mx-auto">
-          <h2 className="mb-2 text-xl">Preview</h2>
-          <p className="mb-2 text-sm">
-            Your location is shown in{" "}
-            <span className="text-blue-500">blue</span>.
-          </p>
-          <p className="mb-2 text-sm">
-            Locations not in your audience are shown in{" "}
-            <span className="text-gray-500">gray</span>. Click on them to add
-            them to your audience.
-          </p>
-          <p className="text-sm">
-            Your audience locations will be shown in{" "}
-            <span className="text-pink-500">pink</span>.
-          </p>
         </div>
 
         <div className="max-w-screen-md p-3 mx-auto">
